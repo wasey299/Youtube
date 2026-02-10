@@ -1,0 +1,27 @@
+class cons1;
+
+rand bit a [8] [8];
+//sum of each row will be either equal to 3 or 5
+
+constraint main_c {
+    foreach(a[i]) {
+        a[i].sum() with (int'(item)) inside {3, 5};
+        //{1, 0, 1, 0, 1, 0, 0, 0} == 3 [011] == 1
+    }
+}
+
+  function void post_randomize();
+    foreach(a[i]) $display("%p", a[i]);
+  endfunction
+
+endclass
+
+module test;
+    cons1 c1;
+
+    initial begin
+        c1 = new();
+
+        assert (c1.randomize()) else $error("RAND FAILED!!");
+    end
+endmodule
